@@ -1,0 +1,503 @@
+
+/* ========================================
+   TYPING SPEED TESTER - NEON DARK THEME
+   Compatible with existing HTML and JS
+======================================== */
+
+/* 1. CSS Variables */
+:root {
+    --bg-dark: #080b18;
+    --bg-card: #11172b;
+    --bg-input: #0b1020;
+
+    --purple: #a855f7;
+    --purple-light: #c084fc;
+    --cyan: #22d3ee;
+
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+
+    --green: #4ade80;
+    --red: #fb7185;
+
+    --border: rgba(168, 85, 247, 0.25);
+    --glow-purple: 0 0 20px rgba(168, 85, 247, 0.2);
+    --glow-cyan: 0 0 20px rgba(34, 211, 238, 0.2);
+}
+
+/* 2. Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 3. Page Background */
+body {
+    min-height: 100vh;
+    padding: 30px 20px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family: "Segoe UI", Arial, sans-serif;
+    color: var(--text-primary);
+
+    background:
+        radial-gradient(
+            circle at 15% 15%,
+            rgba(168, 85, 247, 0.13),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 85% 85%,
+            rgba(34, 211, 238, 0.10),
+            transparent 35%
+        ),
+        var(--bg-dark);
+}
+
+/* 4. Main Container */
+.container {
+    width: 100%;
+    max-width: 900px;
+    padding: 38px;
+
+    background: rgba(17, 23, 43, 0.96);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+
+    box-shadow:
+        0 0 40px rgba(168, 85, 247, 0.08),
+        0 20px 60px rgba(0, 0, 0, 0.35);
+
+    position: relative;
+    overflow: hidden;
+}
+
+/* Neon top border */
+.container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 10%;
+    width: 80%;
+    height: 2px;
+
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--purple),
+        var(--cyan),
+        transparent
+    );
+
+    box-shadow: 0 0 15px var(--cyan);
+}
+
+/* 5. Header */
+header {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+header h1 {
+    font-size: clamp(26px, 4vw, 38px);
+    font-weight: 800;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+
+    background: linear-gradient(
+        90deg,
+        var(--purple-light),
+        var(--cyan)
+    );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+
+    filter: drop-shadow(
+        0 0 12px rgba(168, 85, 247, 0.25)
+    );
+}
+
+header p {
+    color: var(--text-secondary);
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+/* 6. Statistics Grid */
+.stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 35px;
+}
+
+/* Individual Statistic Cards */
+.stat-box {
+    padding: 24px 12px;
+    text-align: center;
+
+    background: linear-gradient(
+        145deg,
+        #171d35,
+        #0d1326
+    );
+
+    border: 1px solid rgba(148, 163, 184, 0.15);
+    border-radius: 16px;
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.stat-box:hover {
+    transform: translateY(-5px);
+    border-color: rgba(34, 211, 238, 0.5);
+    box-shadow: var(--glow-cyan);
+}
+
+.stat-box h2 {
+    font-size: clamp(24px, 3vw, 32px);
+    font-weight: 800;
+    margin-bottom: 9px;
+
+    color: var(--cyan);
+    text-shadow: 0 0 14px rgba(34, 211, 238, 0.35);
+
+    overflow-wrap: anywhere;
+}
+
+.stat-box p {
+    color: var(--text-secondary);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+}
+
+/* Purple highlight for the first metric */
+.stat-box:first-child h2 {
+    color: var(--purple-light);
+    text-shadow: 0 0 14px rgba(168, 85, 247, 0.4);
+}
+
+/* 7. Test Area */
+.test-area h3 {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 16px;
+}
+
+/* 8. Sentence Display */
+.text-display {
+    min-height: 120px;
+    padding: 23px;
+
+    background: var(--bg-input);
+    border: 1px solid rgba(34, 211, 238, 0.2);
+    border-radius: 14px;
+
+    color: #cbd5e1;
+    font-size: 18px;
+    line-height: 2;
+    letter-spacing: 0.3px;
+
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+
+    margin-bottom: 22px;
+
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.text-display:hover {
+    border-color: rgba(168, 85, 247, 0.45);
+}
+
+/* Correct Characters */
+.text-display span.correct {
+    color: var(--green);
+}
+
+/* Incorrect Characters */
+.text-display span.incorrect {
+    color: var(--red);
+    background: rgba(251, 113, 133, 0.14);
+    border-radius: 3px;
+    text-decoration: underline;
+    text-decoration-color: var(--red);
+}
+
+/* Current Typing Position */
+.text-display span.current {
+    border-left: 2px solid var(--cyan);
+    margin-left: -1px;
+    animation: cursor-glow 0.8s infinite;
+}
+
+/* Cursor Glow Animation */
+@keyframes cursor-glow {
+    0%, 100% {
+        border-color: var(--cyan);
+        box-shadow: -2px 0 8px rgba(34, 211, 238, 0.3);
+    }
+
+    50% {
+        border-color: var(--purple-light);
+        box-shadow: -2px 0 8px rgba(168, 85, 247, 0.4);
+    }
+}
+
+/* 9. Typing Input */
+textarea {
+    display: block;
+    width: 100%;
+    min-height: 140px;
+    padding: 18px;
+
+    background: #090e1d;
+    color: var(--text-primary);
+
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    border-radius: 14px;
+    outline: none;
+    resize: vertical;
+
+    font-family: inherit;
+    font-size: 16px;
+    line-height: 1.7;
+
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+textarea::placeholder {
+    color: #64748b;
+}
+
+textarea:focus {
+    border-color: var(--purple);
+    box-shadow:
+        0 0 0 3px rgba(168, 85, 247, 0.12),
+        var(--glow-purple);
+}
+
+textarea:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+    background: #0c1120;
+}
+
+/* 10. Buttons Container */
+.buttons {
+    display: flex;
+    gap: 15px;
+    margin-top: 22px;
+}
+
+/* Shared Button Styles */
+button {
+    flex: 1;
+    min-height: 50px;
+    padding: 14px 22px;
+
+    border: 1px solid transparent;
+    border-radius: 12px;
+
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+/* Start Test Button */
+#start-btn {
+    color: #080b18;
+
+    background: linear-gradient(
+        100deg,
+        var(--purple-light),
+        var(--cyan)
+    );
+
+    box-shadow: 0 0 18px rgba(168, 85, 247, 0.18);
+}
+
+#start-btn:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow:
+        0 0 25px rgba(168, 85, 247, 0.35),
+        0 0 20px rgba(34, 211, 238, 0.2);
+}
+
+/* Restart Button */
+#restart-btn {
+    color: var(--cyan);
+    background: rgba(34, 211, 238, 0.06);
+    border-color: rgba(34, 211, 238, 0.35);
+}
+
+#restart-btn:hover:not(:disabled) {
+    transform: translateY(-3px);
+    background: rgba(34, 211, 238, 0.12);
+    border-color: var(--cyan);
+    box-shadow: var(--glow-cyan);
+}
+
+/* Keyboard Focus */
+button:focus-visible {
+    outline: 2px solid var(--cyan);
+    outline-offset: 4px;
+}
+
+/* Disabled Buttons */
+button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* 11. Status Message */
+#message {
+    margin-top: 22px;
+    padding: 15px;
+
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.8;
+
+    background: rgba(168, 85, 247, 0.05);
+    border: 1px solid rgba(168, 85, 247, 0.12);
+    border-radius: 12px;
+}
+
+/* 12. Footer */
+footer {
+    margin-top: 32px;
+    padding-top: 20px;
+
+    border-top: 1px solid rgba(148, 163, 184, 0.12);
+
+    text-align: center;
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+/* 13. Selection Color */
+::selection {
+    color: #ffffff;
+    background: rgba(168, 85, 247, 0.55);
+}
+
+/* 14. Responsive Design: Tablets */
+@media (max-width: 700px) {
+    body {
+        padding: 20px 12px;
+    }
+
+    .container {
+        padding: 28px 20px;
+        border-radius: 18px;
+    }
+
+    .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .stat-box {
+        padding: 20px 10px;
+    }
+
+    .text-display {
+        padding: 18px;
+        font-size: 16px;
+        line-height: 1.9;
+    }
+}
+
+/* 15. Responsive Design: Small Phones */
+@media (max-width: 420px) {
+    body {
+        padding: 12px 8px;
+    }
+
+    .container {
+        padding: 24px 14px;
+    }
+
+    header {
+        margin-bottom: 26px;
+    }
+
+    header h1 {
+        font-size: 25px;
+    }
+
+    header p {
+        font-size: 13px;
+    }
+
+    .stat-box h2 {
+        font-size: 25px;
+    }
+
+    .stat-box p {
+        font-size: 10px;
+        letter-spacing: 1px;
+    }
+
+    .text-display {
+        padding: 14px;
+        font-size: 15px;
+    }
+
+    textarea {
+        min-height: 120px;
+        padding: 14px;
+        font-size: 15px;
+    }
+
+    .buttons {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    button {
+        width: 100%;
+    }
+}
+
+/* 16. Reduced Motion Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}

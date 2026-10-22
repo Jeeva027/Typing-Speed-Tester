@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Speed Tester</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Typing Speed Tester</h1>
+            <p>Test your typing speed and accuracy!</p>
+        </header>
+
+        <section class="stats">
+            <div class="stat-box">
+                <h2 id="wpm">0</h2>
+                <p>WPM</p>
+            </div>
+
+            <div class="stat-box">
+                <h2 id="accuracy">100%</h2>
+                <p>Accuracy</p>
+            </div>
+
+            <div class="stat-box">
+                <h2 id="time">60</h2>
+                <p>Seconds</p>
+            </div>
+
+            <div class="stat-box">
+                <h2 id="errors">0</h2>
+                <p>Errors</p>
+            </div>
+        </section>
+
+        <section class="test-area">
+            <h3>Type the following text:</h3>
+
+            <div id="text-display" class="text-display"></div>
+
+            <textarea
+                id="typing-input"
+                placeholder="Start typing here..."
+                disabled
+                spellcheck="false"
+                autocomplete="off"
+                autocapitalize="off"
+            ></textarea>
+
+            <div class="buttons">
+                <button id="start-btn">Start Test</button>
+                <button id="restart-btn">Restart</button>
+            </div>
+
+            <p id="message" aria-live="polite">
+                Click Start Test to begin.
+            </p>
+        </section>
+
+        <footer>
+            <p>Practice daily. Type faster. Improve your accuracy.</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
